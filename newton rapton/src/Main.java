@@ -91,7 +91,68 @@ class proses
         System.out.println("f(x)    = " + proses_fx );
         System.out.println("f'(x)   = " + proses_turunan_pertama_fx);
         System.out.println("f''(x)  = " + proses_turunan_kedua_fx);
+        cek_syarat(nilai_x,proses_fx,proses_turunan_pertama_fx, proses_turunan_kedua_fx,A,B,C,D,E,F);
     }
+
+    public void cek_syarat(double nilai_x, double nilai_fx, double nilai_turunan_pertama_fx, double nilai_turunan_kedua_fx, double A, double B, double C, double D, double E, double F)
+    {
+        double cek_syarat = (nilai_fx * nilai_turunan_kedua_fx)/(nilai_turunan_pertama_fx*nilai_turunan_pertama_fx);
+        boolean syarat = cek_syarat < 1;
+
+        System.out.println(" ");
+        System.out.println("nilai syarat = " + cek_syarat + "< 1");
+        if (syarat == true)
+        {
+            System.out.println("status syarat =  memenuhi syarat < 1");
+            literasi_pertama(nilai_x,nilai_fx,nilai_turunan_pertama_fx,A,B,C,D,E,F);
+        }
+        else
+        {
+            System.out.println("status syarat = tidak memenuh syarat < 1");
+            proses_turunan_dengan_inputan_x(A, B, C, D, E, F);
+        }
+    }
+
+    public void literasi_pertama(double nilai_x, double nilai_fx, double nilai_turunan_pertama_fx, double A, double B, double C, double D, double E,double F)
+    {
+        double proses_fx_B = 1, proses_fx_D = 1;
+
+        System.out.println(" ");
+        System.out.print("masukkan batas nilai error = ");
+        double input_batas_error = input.nextDouble();
+        System.out.print("masukkan batas iterasi     = ");
+        double input_batas_iterasi = input.nextDouble();
+
+        double nilai_x2 = nilai_x - (nilai_fx/nilai_turunan_pertama_fx);
+
+        for (int perulangan = 0; perulangan < B ; perulangan++)
+        {
+            proses_fx_B = proses_fx_B * nilai_x2;
+        }
+
+        for (int perulangan = 0; perulangan < D ; perulangan++)
+        {
+            proses_fx_D = proses_fx_D * nilai_x2;
+        }
+
+        double proses_fx = (A * proses_fx_B ) + (C * proses_fx_D) + (E * nilai_x2) + F;
+        double nilai_error = nilai_x - proses_fx;
+        boolean cek_nilai_error = nilai_error < input_batas_error;
+
+        System.out.println("x2 = "+ nilai_x2 );
+        System.out.println("f(" + nilai_x2 + ") = " + proses_fx);
+        System.out.println("nilai error     = " + nilai_error);
+
+        if (cek_nilai_error == true)
+        {
+            System.out.println("status nilai error terpenuhi ");
+        }
+        else
+        {
+            System.out.println("status nilai error tidak terpenuhi ");
+        }
+    }
+
 }
 public class Main {
     public static void main(String[] args)
