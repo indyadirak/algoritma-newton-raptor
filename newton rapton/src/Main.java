@@ -100,7 +100,7 @@ class proses
         boolean syarat = cek_syarat < 1;
 
         System.out.println(" ");
-        System.out.println("nilai syarat = " + cek_syarat + "< 1");
+        System.out.println("nilai syarat = " + cek_syarat + " < 1");
         if (syarat == true)
         {
             System.out.println("status syarat =  memenuhi syarat < 1");
@@ -139,20 +139,90 @@ class proses
         double nilai_error = nilai_x - proses_fx;
         boolean cek_nilai_error = nilai_error < input_batas_error;
 
+        System.out.println(" ");
+        System.out.println("iterasi ke-1");
         System.out.println("x2 = "+ nilai_x2 );
         System.out.println("f(" + nilai_x2 + ") = " + proses_fx);
         System.out.println("nilai error     = " + nilai_error);
 
-        if (cek_nilai_error == true)
+        if (cek_nilai_error == true|| input_batas_iterasi == 1 )
         {
-            System.out.println("status nilai error terpenuhi ");
+            System.out.println("status nilai error terpenuhi atau batas iterasi terpenuhi");
         }
         else
         {
             System.out.println("status nilai error tidak terpenuhi ");
+            literasi_lebih_dari_satu(nilai_x, nilai_x2,A,B,C,D,E,F,input_batas_error, input_batas_iterasi, 1);
         }
     }
 
+    public void literasi_lebih_dari_satu(double nilai_x,double nilai_x2, double A, double B, double C, double D, double E,double F,double input_batas_error,double input_batas_iterasi, int iterasi_ke_n)
+    {
+        double proses_fx_B = 1, proses_fx_D = 1,proses_turunan_pertama_fx_B = 1, proses_turunan_pertama_fx_D = 1;
+        double nilai_x1 = nilai_x2;
+        iterasi_ke_n = iterasi_ke_n + 1;
+
+        for (int perulangan = 0; perulangan < B ; perulangan++)
+        {
+            proses_fx_B = proses_fx_B *  nilai_x1;
+        }
+
+        for (int perulangan = 0; perulangan < D ; perulangan++)
+        {
+            proses_fx_D = proses_fx_D *  nilai_x1;
+        }
+        for (int perulangan = 0; perulangan < B-1 ; perulangan++)
+        {
+            proses_turunan_pertama_fx_B = proses_turunan_pertama_fx_B *  nilai_x1;
+        }
+
+        for (int perulangan = 0; perulangan < D-1 ; perulangan++)
+        {
+            proses_turunan_pertama_fx_D = proses_turunan_pertama_fx_D *  nilai_x1;
+        }
+
+        double proses_turunan_pertama_fx_A = A * B;
+        double proses_turunan_pertama_fx_C = C * D;
+        double proses_fx                   = (A * proses_fx_B ) + (C * proses_fx_D) + (E *  nilai_x1) + F;
+        double proses_turunan_pertama_fx   = (proses_turunan_pertama_fx_A * proses_turunan_pertama_fx_B) + (proses_turunan_pertama_fx_C * proses_turunan_pertama_fx_D) + E;
+        nilai_x2 =  nilai_x1 - (proses_fx/proses_turunan_pertama_fx);
+
+        proses_fx_B = 1;
+        proses_fx_D = 1;
+        for (int perulangan = 0; perulangan < B ; perulangan++)
+        {
+            proses_fx_B = proses_fx_B * nilai_x2;
+        }
+
+        for (int perulangan = 0; perulangan < D ; perulangan++)
+        {
+            proses_fx_D = proses_fx_D * nilai_x2;
+        }
+
+        double proses_fx2 = (A * proses_fx_B ) + (C * proses_fx_D) + (E * nilai_x2) + F;
+        double nilai_error = nilai_x - proses_fx2;
+        boolean cek_nilai_error = nilai_error < input_batas_error;
+
+        System.out.println(" ");
+        System.out.println("iterasi ke-" + iterasi_ke_n);
+        System.out.println(" ");
+        System.out.println("f(" +  nilai_x1 + ")    = " + proses_fx );
+        System.out.println("f'(" +  nilai_x1 + ")   = " + proses_turunan_pertama_fx);
+        System.out.println("x2 = "+ nilai_x2 );
+        System.out.println("f(" + nilai_x2 + ") = " + proses_fx2);
+        System.out.println("nilai error     = " + nilai_error);
+
+        if (cek_nilai_error == true || iterasi_ke_n == input_batas_iterasi)
+        {
+            System.out.println("status nilai error terpenuhi atau batas iterasi terpenuhi ");
+        }
+        else
+        {
+            System.out.println("status nilai error tidak terpenuhi ");
+            literasi_lebih_dari_satu(nilai_x, nilai_x2,A,B,C,D,E,F,input_batas_error, input_batas_iterasi, iterasi_ke_n);
+        }
+
+    }
 }
 public class Main {
     public static void main(String[] args)
